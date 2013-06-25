@@ -12,5 +12,5 @@ typedef pair<int,int> pt;
 
 int main() {
 	if(true) cin.sync_with_stdio(false);
-  return 0;
+	return 0;
 }
