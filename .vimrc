@@ -1,34 +1,33 @@
-"
-" fmm's .vimrc
-" version 1.0 2012-09-10
-"
+set viminfo='10,\"100,:20,%,n~/.viminfo
+
+function! ResCur()
+  if line("'\"") <= line("$")
+    normal! g`"
+    return 1
+  endif
+endfunction
+
+augroup resCur
+  autocmd!
+  autocmd BufWinEnter * call ResCur()
+augroup END
 
 colorscheme darkblue
-filetype plugin on
 syntax on
 
-set nocp
 set backspace=indent,eol,start
 set autoindent
-set history=50
 
 set shiftwidth=2
 set tabstop=2
-set expandtab
-set foldmethod=marker
 set number
-set ruler
-set et
 set nobackup
 set fileformat=unix
 
 set textwidth=200
 
-set autowrite
-
-set mouse=a
+set mouse=c
 set swapsync=
-set autoindent
 set nofsync
 
 nmap <C-A> "+ggVG
@@ -44,10 +43,9 @@ endfunction
 
 inoremap <Tab> <C-R>=Misof_Tab_Completion()<CR>
 
-
-  " C/C++
+" C/C++
 function! CPPSET()
-  set makeprg=if\ \[\ -f\ \"Makefile\"\ \];then\ make\ $*;else\ if\ \[\ -f\ \"makefile\"\ \];then\ make\ $*;else\ g++\ -O2\ -g\ -Wall\ -W\ %;fi;fi
+	set makeprg=g++\ -O2\ -Wall\ %;
   set errorformat=%f:%l:\ %m
   set cindent
   set tw=0
@@ -69,7 +67,7 @@ function! CPPSET()
   map 9 :!clear<CR>:!./a.out 9<CR>
 endfunction
 
-  " Java
+" Java
 function! JAVASET()
   set makeprg=if\ \[\ -f\ \"Makefile\"\ \];then\ make\ $*;else\ if\ \[\ -f\ \"makefile\"\ \];then\ make\ $*;else\ javac\ -g\ %;fi;fi
   set errorformat=%f:%l:\ %m
@@ -82,7 +80,7 @@ function! JAVASET()
   map <F4> :!clear<CR>:!java %:r <in.txt >out.txt<CR>
 endfunction
 
-  " LaTeX
+" LaTeX
 function! TEXSET()
   set makeprg=if\ \[\ -f\ \"Makefile\"\ \];then\ make\ $*;else\ if\ \[\ -f\ \"makefile\"\ \];then\ make\ $*;else\ pdflatex\ -file-line-error-style\ %;fi;fi
   set errorformat=%f:%l:\ %m
@@ -90,24 +88,25 @@ function! TEXSET()
   map <F2> :!clear<CR>:!evince %:r.pdf &<CR>
 endfunction
 
-  " Python
+" Python
 function! PYSET()
-  set tw=0
+	set tw=0
   set nowrap
+	setlocal expandtab
+	setlocal smarttab
 
-  map <F2>: !clear<CR>:!python %<CR>
+  map <F2> :!clear<CR>:!python %<CR>
   map <F2> :!clear<CR>:!python %<CR>
   map <F3> :!clear<CR>:!python % <in.txt<CR>
   map <F4> :!clear<CR>:!python % <in.txt >out.txt<CR>
 endfunction
 
-autocmd BufNewFile *.cpp  0r /home/filipe/Template.cpp
-autocmd BufNewFile *.java 0r /home/filipe/Template.java
-autocmd BufNewFile *.py   0r /home/filipe/Template.py
-autocmd BufNewFile *.tex  0r /home/filipe/Template.tex
+autocmd BufNewFile *.cpp  0r /home/flipmm/TopCoder/Template.cpp
+autocmd BufNewFile *.java 0r /home/flipmm/TopCoder/Template.java
+autocmd BufNewFile *.py   0r /home/flipmm/TopCoder/Template.py
+autocmd BufNewFile *.tex  0r /home/flipmm/TopCoder/Template.tex
 
-autocmd FileType cpp  call CPPSET()
-autocmd FileType tex  call TEXSET() 
-autocmd FileType java call JAVASET()
-autocmd FileType py   call PYSET()
-
+autocmd FileType cpp    call CPPSET()
+autocmd FileType tex    call TEXSET() 
+autocmd FileType java   call JAVASET()
+autocmd FileType python call PYSET()
